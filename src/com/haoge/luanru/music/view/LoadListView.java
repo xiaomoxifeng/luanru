@@ -10,14 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 
-public class LoadListView extends ListView implements OnScrollListener{
+public class LoadListView extends ListView implements OnScrollListener {
 	// 底部布局
 	View footer;
-	//总
-int totalItemCount;
-//最后
-int lastVisibleItem;
-boolean isLoading;
+	// 总
+	int totalItemCount;
+	// 最后
+	int lastVisibleItem;
+	boolean isLoading;
+
 	public LoadListView(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
@@ -53,12 +54,13 @@ boolean isLoading;
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		// TODO Auto-generated method stub
-		if(totalItemCount==lastVisibleItem && scrollState==SCROLL_STATE_IDLE){
-			if(!isLoading){
-				footer.findViewById(R.id.load_layout).setVisibility(View.VISIBLE);
+		if (totalItemCount == lastVisibleItem
+				&& scrollState == SCROLL_STATE_IDLE) {
+			if (!isLoading) {
+				footer.findViewById(R.id.load_layout).setVisibility(
+						View.VISIBLE);
 			}
-			
-	
+
 		}
 	}
 
@@ -66,9 +68,9 @@ boolean isLoading;
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
 		// TODO Auto-generated method stub
-		this.lastVisibleItem=firstVisibleItem+visibleItemCount;
-		this.totalItemCount=totalItemCount;
-		
+		this.lastVisibleItem = firstVisibleItem + visibleItemCount;
+		this.totalItemCount = totalItemCount;
+
 	}
 
 }
