@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="HardcodedText" >
@@ -21,13 +22,14 @@
             android:textSize="20sp" />
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/lv_music_local"
+    <com.haoge.luanru.music.view.SlideCutListView
+         android:id="@+id/lv_music_local"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rl_top" 
+        android:layout_below="@+id/rl_top"
+        android:divider="@drawable/reader_item_divider"
         >
-    </ListView>
+     </com.haoge.luanru.music.view.SlideCutListView>
  
 
 </RelativeLayout>

@@ -57,5 +57,30 @@
                 android:text="tvAuthor" />
         </TableRow>
     </TableLayout>
+     <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:background="@android:color/darker_gray"
+        android:padding="15dp" >
+
+        <TextView
+            android:id="@+id/tv_functions"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_del_bg"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tv_coating"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@android:color/darker_gray"
+            android:visibility="gone" />
+    </FrameLayout>
 
 </LinearLayout>
