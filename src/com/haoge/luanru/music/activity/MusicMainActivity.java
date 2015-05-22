@@ -17,9 +17,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.haoge.luanru.R;
 import com.haoge.luanru.baseActivity.SlidingFragment;
 import com.haoge.luanru.music.entity.Music;
+import com.haoge.luanru.music.fragment.ILoadMusicListenter;
 import com.haoge.luanru.music.fragment.LocalMusicFragment;
 import com.haoge.luanru.music.fragment.OnlineMusicFragment;
 import com.haoge.luanru.music.service.PlayMusicService;
@@ -30,7 +32,7 @@ import com.haoge.luanru.music.util.ImageDownLoader;
 import com.haoge.luanru.music.util.ImageDownLoader.onImageLoaderListener;
 import com.haoge.luanru.music.view.AlwaysMarqueeTextView;
 public class MusicMainActivity extends SlidingFragment implements
-		BroadcastActions {
+		BroadcastActions,ILoadMusicListenter {
 	/**
 	 * View Pager，容纳多个Fragment的容器
 	 */
@@ -88,6 +90,7 @@ public class MusicMainActivity extends SlidingFragment implements
 		// 启动Service
 		Intent i = new Intent(this, PlayMusicService.class);
 		startService(i);
+		
 		
 	}
 
@@ -154,10 +157,10 @@ public class MusicMainActivity extends SlidingFragment implements
 			Fragment fragment = null;
 			switch (location) {
 			case 0:
-				fragment = new LocalMusicFragment();
+				fragment= new LocalMusicFragment().setMusicInterface(MusicMainActivity.this);
 				break;
 			case 1:
-				fragment = new OnlineMusicFragment();
+				fragment = new OnlineMusicFragment().setMusicInterface(MusicMainActivity.this);
 				break;
 			}
 			return fragment;
@@ -308,5 +311,27 @@ public class MusicMainActivity extends SlidingFragment implements
 		super.onDestroy();
 
 	}
+	//public void setMusicInterface(ILoadMusicListener iLoadMusicListener){
+//		this.mLoadMusicListener = iLoadMusicListener;
+//		return this;
+//	}
+	//回调接口
+//	public interface ILoadMusicListener{
+//		public void onLoadMusic(int position);
+//		public void onLoadMusics(List<Music> musics);
+//	}
+
+	@Override
+	public void onLoadMusic(int position) {
+		// TODO Auto-generated method stub
+	this.currentMusicPosition = position;
+	}
+
+	@Override
+	public void onLoadMusics(List<Music> result) {
+		// TODO Auto-generated method stub
+		this.musics = result;
+	}
+
 
 }

@@ -22,14 +22,14 @@
             android:textSize="20sp" />
     </RelativeLayout>
 
-    <com.haoge.luanru.music.view.SlideCutListView
+    <ListView
          android:id="@+id/lv_music_local"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_top"
         android:divider="@drawable/reader_item_divider"
         >
-     </com.haoge.luanru.music.view.SlideCutListView>
+     </ListView>
  
 
 </RelativeLayout>

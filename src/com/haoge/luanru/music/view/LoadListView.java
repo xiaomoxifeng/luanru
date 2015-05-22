@@ -17,6 +17,7 @@ public class LoadListView extends ListView implements OnScrollListener {
 	int totalItemCount;
 	// 最后
 	int lastVisibleItem;
+	private  ILoadListener mLoadListener;
 	boolean isLoading;
 
 	public LoadListView(Context context) {
@@ -59,6 +60,7 @@ public class LoadListView extends ListView implements OnScrollListener {
 			if (!isLoading) {
 				footer.findViewById(R.id.load_layout).setVisibility(
 						View.VISIBLE);
+				mLoadListener.onLoad();
 			}
 
 		}
@@ -71,6 +73,13 @@ public class LoadListView extends ListView implements OnScrollListener {
 		this.lastVisibleItem = firstVisibleItem + visibleItemCount;
 		this.totalItemCount = totalItemCount;
 
+	}
+	public void setInterface(ILoadListener iLoadListener){
+		this.mLoadListener = iLoadListener;
+	}
+	//加载更多数据的回调接口
+	public interface ILoadListener{
+		public void onLoad();
 	}
 
 }

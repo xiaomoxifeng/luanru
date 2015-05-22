@@ -16,4 +16,5 @@ public interface MusicFragment {
 	 public void updateListView(List<Music> result);
 	 public Context getContext();
 	 public List<Music> getMusics(); 
+
 }

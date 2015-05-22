@@ -20,7 +20,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 import cn.bmob.v3.Bmob;
-
+import com.haoge.luanru.music.fragment.ILoadMusicListenter;
 import com.haoge.luanru.R;
 import com.haoge.luanru.app.LuanruApplication;
 import com.haoge.luanru.music.activity.MusicMainActivity;
@@ -47,7 +47,10 @@ public class OnlineMusicFragment extends Fragment implements BroadcastActions,Mu
 	private static int currentMusicPosition;
 	private Music m;
 	private LuanruApplication app;
-	private MusicMainActivity mainActivity;
+	private ILoadMusicListenter mLoadMusicListener;
+	public OnlineMusicFragment OnlineMusicFragment() {
+		return OnlineMusicFragment.this;
+	}
 	private Intent mIntent;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,7 +59,6 @@ public class OnlineMusicFragment extends Fragment implements BroadcastActions,Mu
 		View v = inflater.inflate(R.layout.fragment_music_online, null);
 		lvMusics = (ListView) v.findViewById(R.id.lv_music_online);
 		musicDao = new MusicDaoImp(getActivity());
-		mainActivity=(MusicMainActivity) getActivity();
 		//初始化Bmob
 		Bmob.initialize(getActivity(), MusicGlobalConsts.BMOB_APPID);
 		refresh();
@@ -71,7 +73,7 @@ public class OnlineMusicFragment extends Fragment implements BroadcastActions,Mu
 					int position, long id) {
 				// TODO Auto-generated method stub
 				System.out.println("iv_play");
-				mainActivity.getCurrentMusicPosition(position);
+				mLoadMusicListener.onLoadMusic(position);
 				mIntent = new Intent(ACTVITY_ITEM);
 				mIntent.putExtra("OnLineMusic", position);
 				getActivity().sendBroadcast(mIntent);
@@ -164,8 +166,9 @@ public class OnlineMusicFragment extends Fragment implements BroadcastActions,Mu
 	}
 	private void setApp() {
 		System.out.println("	app.setmMusicFragment(OnlineMusicFragment.this);_______");
-		MusicMainActivity mma=(MusicMainActivity) getActivity();
-		mma.getMusics(musics);
+//		MusicMainActivity mma=(MusicMainActivity) getActivity();
+//		mma.getMusics(musics);
+		mLoadMusicListener.onLoadMusics(musics);
 		app.setmMusicFragment(OnlineMusicFragment.this);
 	}
 
@@ -244,10 +247,10 @@ public class OnlineMusicFragment extends Fragment implements BroadcastActions,Mu
 		// TODO Auto-generated method stub
 	 return musics;
 	}
-//	@Override
-//	public int getCurrentMusicPosition() {
-//		// TODO Auto-generated method stub
-//		return currentMusicPosition;
-//	}
+
+	public Fragment setMusicInterface(ILoadMusicListenter iLoadMusicListener){
+		this.mLoadMusicListener = iLoadMusicListener;
+		return this;
+	}
 
 }

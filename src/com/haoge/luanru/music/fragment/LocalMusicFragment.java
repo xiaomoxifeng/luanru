@@ -13,8 +13,7 @@ import com.haoge.luanru.music.dao.MusicDaoImp;
 import com.haoge.luanru.music.entity.Music;
 import com.haoge.luanru.music.service.DeleteFileService;
 import com.haoge.luanru.music.util.BroadcastActions;
-import com.haoge.luanru.music.view.SlideCutListView;
-import com.haoge.luanru.music.view.SlideCutListView.RemoveListener;
+import com.haoge.luanru.music.view.LoadListView.ILoadListener;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -34,16 +33,20 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemLongClickListener;
 
-public class LocalMusicFragment extends Fragment implements BroadcastActions,MusicFragment,RemoveListener {
-	private SlideCutListView lvMusics;
+public class LocalMusicFragment extends Fragment implements BroadcastActions,MusicFragment,ILoadListener {
+	private ListView lvMusics;
 	private  List<Music> musics;
 	private LocalMusicAdapter adapter;
 	private MusicDao musicDao;
+	private ILoadMusicListenter mLoadMusicListener;
+	public LocalMusicFragment LocalMusicFragment() {
+		return LocalMusicFragment.this;
+	}
 	private Music m;
 	private LuanruApplication app;
 	private Intent mIntent;
 	private static int currentMusicPosition;
-	private MusicMainActivity mainActivity;
+	//private ILoadMusicListener mLoadMusicListener;
 
 	public  List<Music> getMusics() {
 		return musics;
@@ -54,13 +57,12 @@ public class LocalMusicFragment extends Fragment implements BroadcastActions,Mus
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View v = inflater.inflate(R.layout.fragment_music_local, null);
-		lvMusics = (SlideCutListView) v.findViewById(R.id.lv_music_local);
+		lvMusics = (ListView) v.findViewById(R.id.lv_music_local);
 		musicDao = new MusicDaoImp(getActivity());
 		//lvMusics = (SlideCutListView) findViewById(R.id.slideCutListView);
-		lvMusics.setRemoveListener(this);
+
 		DaoBiz();
 		initReceiver();
-		mainActivity=(MusicMainActivity) getActivity();
 		app=(LuanruApplication) getActivity().getApplication();
 		lvMusics.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -68,7 +70,7 @@ public class LocalMusicFragment extends Fragment implements BroadcastActions,Mus
 					int position, long id) {
 				// TODO Auto-generated method stub
 				System.out.println("iv_play");
-				mainActivity.getCurrentMusicPosition(position);
+				//mLoadMusicListener.onLoadMusic(position);
 				mIntent = new Intent(ACTVITY_ITEM);
 				mIntent.putExtra("Loaclmusic", position);
 				getActivity().sendBroadcast(mIntent);
@@ -172,7 +174,7 @@ public class LocalMusicFragment extends Fragment implements BroadcastActions,Mus
 
 	private void setApp() {
 		System.out.println("app.setmMusicFragment(LocalMusicFragment.this);______");
-		mainActivity.getMusics(musics);
+		//mLoadMusicListener.onLoadMusics(musics);
 		app.setmMusicFragment(LocalMusicFragment.this);
 	}
 	
@@ -191,12 +193,26 @@ public class LocalMusicFragment extends Fragment implements BroadcastActions,Mus
 	}
 
 	@Override
-	public void removeItem(int position) {
+	public void onLoad() {
 		// TODO Auto-generated method stub
-		SlideCutListView.isSlide = false;
-		SlideCutListView.itemView.findViewById(R.id.tv_coating).setVisibility(View.VISIBLE);
-		musics.remove(position);
-		adapter.notifyDataSetChanged();
+		
 	}
+
+	public Fragment setMusicInterface(ILoadMusicListenter iLoadMusicListener){
+		this.mLoadMusicListener = iLoadMusicListener;
+		return this;
+	}
+//	//回调接口
+//	public interface ILoadMusicListener{
+//		public void onLoadMusic(int position);
+//		public void onLoadMusics(List<Music> musics);
+//	}
+//
+//	@Override
+//	public void onLoad() {
+//		// TODO Auto-generated method stub
+//		
+//	}
+
 	
 }
