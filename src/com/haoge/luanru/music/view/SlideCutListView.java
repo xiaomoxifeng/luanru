@@ -55,7 +55,6 @@ public class SlideCutListView extends ListView {
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN: {
 
-			Log.e("sunzn", "dispatchTouchEvent ACTION_DOWN isSlide = " + isSlide);
 
 			addVelocityTracker(event);
 

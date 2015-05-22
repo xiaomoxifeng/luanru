@@ -13,6 +13,8 @@ import com.haoge.luanru.music.dao.MusicDaoImp;
 import com.haoge.luanru.music.entity.Music;
 import com.haoge.luanru.music.service.DeleteFileService;
 import com.haoge.luanru.music.util.BroadcastActions;
+import com.haoge.luanru.music.view.SlideCutListView;
+import com.haoge.luanru.music.view.SlideCutListView.RemoveListener;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -32,9 +34,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemLongClickListener;
 
-public class LocalMusicFragment extends Fragment implements BroadcastActions,MusicFragment {
-	private ListView lvMusics;
-	private static List<Music> musics;
+public class LocalMusicFragment extends Fragment implements BroadcastActions,MusicFragment,RemoveListener {
+	private SlideCutListView lvMusics;
+	private  List<Music> musics;
 	private LocalMusicAdapter adapter;
 	private MusicDao musicDao;
 	private Music m;
@@ -52,8 +54,10 @@ public class LocalMusicFragment extends Fragment implements BroadcastActions,Mus
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View v = inflater.inflate(R.layout.fragment_music_local, null);
-		lvMusics = (ListView) v.findViewById(R.id.lv_music_local);
+		lvMusics = (SlideCutListView) v.findViewById(R.id.lv_music_local);
 		musicDao = new MusicDaoImp(getActivity());
+		//lvMusics = (SlideCutListView) findViewById(R.id.slideCutListView);
+		lvMusics.setRemoveListener(this);
 		DaoBiz();
 		initReceiver();
 		mainActivity=(MusicMainActivity) getActivity();
@@ -184,6 +188,15 @@ public class LocalMusicFragment extends Fragment implements BroadcastActions,Mus
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		
+	}
+
+	@Override
+	public void removeItem(int position) {
+		// TODO Auto-generated method stub
+		SlideCutListView.isSlide = false;
+		SlideCutListView.itemView.findViewById(R.id.tv_coating).setVisibility(View.VISIBLE);
+		musics.remove(position);
+		adapter.notifyDataSetChanged();
 	}
 	
 }
