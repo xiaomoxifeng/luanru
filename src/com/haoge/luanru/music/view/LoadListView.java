@@ -2,16 +2,22 @@ package com.haoge.luanru.music.view;
 
 import com.haoge.luanru.R;
 
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 
-public class LoadListView extends ListView {
+public class LoadListView extends ListView implements OnScrollListener{
 	// 底部布局
 	View footer;
-
+	//总
+int totalItemCount;
+//最后
+int lastVisibleItem;
+boolean isLoading;
 	public LoadListView(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
@@ -41,6 +47,28 @@ public class LoadListView extends ListView {
 		footer = inflater.inflate(R.layout.footer_layout, null);
 		footer.findViewById(R.id.load_layout).setVisibility(View.GONE);
 		this.addFooterView(footer);
+		this.setOnScrollListener(this);
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		// TODO Auto-generated method stub
+		if(totalItemCount==lastVisibleItem && scrollState==SCROLL_STATE_IDLE){
+			if(!isLoading){
+				footer.findViewById(R.id.load_layout).setVisibility(View.VISIBLE);
+			}
+			
+	
+		}
+	}
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem,
+			int visibleItemCount, int totalItemCount) {
+		// TODO Auto-generated method stub
+		this.lastVisibleItem=firstVisibleItem+visibleItemCount;
+		this.totalItemCount=totalItemCount;
+		
 	}
 
 }
